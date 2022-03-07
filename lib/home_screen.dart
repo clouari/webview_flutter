@@ -1,8 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:webview/find_zip_screen.dart';
+import 'package:webview/zip_code.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  final _zoneCodeTextEditingController = TextEditingController();
+  final _addressTextEditingController = TextEditingController();
+  final _address2TextEditingController = TextEditingController();
+  final _dongTextEditingController = TextEditingController();
+
+  @override
+  void dispose() {
+    _zoneCodeTextEditingController.dispose();
+    _addressTextEditingController.dispose();
+    _address2TextEditingController.dispose();
+    _dongTextEditingController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,28 +34,44 @@ class HomeScreen extends StatelessWidget {
         children: [
           Row(
             children: [
-              const SizedBox(
+              SizedBox(
                 width: 100,
-                child: TextField(),
+                child: TextField(
+                  controller: _zoneCodeTextEditingController,
+                ),
               ),
               ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
+                onPressed: () async {
+                  ZipCode zipCode = await Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) => const FindZipScreen()),
                   );
+
+                  _zoneCodeTextEditingController.text = zipCode.zonecode;
+                  _addressTextEditingController.text = zipCode.roadAddress;
+                  _dongTextEditingController.text = zipCode.bname;
+
+                  print(zipCode.roadAddress);
                 },
                 child: const Text('우편번호 찾기'),
               ),
             ],
           ),
-          const TextField(),
+          TextField(
+            controller: _addressTextEditingController,
+          ),
           Row(
-            children: const [
-              Expanded(child: TextField()),
-              SizedBox(width: 30),
-              Expanded(child: TextField()),
+            children: [
+              Expanded(
+                  child: TextField(
+                controller: _address2TextEditingController,
+              )),
+              const SizedBox(width: 30),
+              Expanded(
+                  child: TextField(
+                controller: _dongTextEditingController,
+              )),
             ],
           ),
         ],
