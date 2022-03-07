@@ -19,9 +19,13 @@ class _FindZipScreenState extends State<FindZipScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: WebView(
-        initialUrl: 'https://flutter.dev',
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('우편번호 검색'),
+      ),
+      body: const WebView(
+        initialUrl: 'http://127.0.0.1:5500/index.html',
+        javascriptMode: JavascriptMode.unrestricted,
       ),
     );
   }
