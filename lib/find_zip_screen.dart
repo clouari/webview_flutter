@@ -23,9 +23,17 @@ class _FindZipScreenState extends State<FindZipScreen> {
       appBar: AppBar(
         title: const Text('우편번호 검색'),
       ),
-      body: const WebView(
-        initialUrl: 'http://127.0.0.1:5500/index.html',
+      body: WebView(
+        initialUrl: 'http://127.0.0.1:5501/index.html',
         javascriptMode: JavascriptMode.unrestricted,
+        javascriptChannels: {
+          JavascriptChannel(
+            name: 'zipcode',
+            onMessageReceived: (JavascriptMessage message) {
+              print(message.toString());
+            },
+          ),
+        },
       ),
     );
   }
