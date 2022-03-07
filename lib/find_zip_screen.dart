@@ -1,6 +1,8 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:webview/zip_code.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class FindZipScreen extends StatefulWidget {
@@ -30,7 +32,13 @@ class _FindZipScreenState extends State<FindZipScreen> {
           JavascriptChannel(
             name: 'zipcode',
             onMessageReceived: (JavascriptMessage message) {
-              print(message.toString());
+              Map<String, dynamic> json = jsonDecode(message.message);
+              ZipCode zipCode = ZipCode.fromJson(json);
+              // print(json);
+
+              // 결과 전달
+              Navigator.pop(context, zipCode);
+              // print(message.message);
             },
           ),
         },
